@@ -236,7 +236,7 @@ class Model(nn.Module):
                 monitor[m_m] = metrics_meter[m_m].avg
             self.current_train_step += 1
             if not self.using_tpu:
-                tk0.set_postfix(loss=losses.avg, stage="train", **monitor)
+                tk0.set_postfix(epoch=self.current_epoch, loss=losses.avg, stage="train", **monitor)
             if self.using_tpu:
                 print(f"train step: {self.current_train_step} loss: {losses.avg}")
         if not self.using_tpu:
@@ -266,7 +266,7 @@ class Model(nn.Module):
                 metrics_meter[m_m].update(metrics[m_m], data_loader.batch_size)
                 monitor[m_m] = metrics_meter[m_m].avg
             if not self.using_tpu:
-                tk0.set_postfix(loss=losses.avg, stage="valid", **monitor)
+                tk0.set_postfix(epoch=self.current_epoch, loss=losses.avg, stage="valid", **monitor)
             self.current_valid_step += 1
         if not self.using_tpu:
             tk0.close()
